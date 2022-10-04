@@ -35,18 +35,21 @@ class Messenger
       params[:username] = username if username.present?
       params[:attachments] = options[:attachment]&.any? ? [options[:attachment]] : []
       unless params[:attachments].empty?
-        unless params[:attachments][0].key?(:text)
-          field_id = -1
-          params[:attachments][0][:fields].each_with_index do |field, i|
-            if field[:title] == 'コメント'
+        field_id = -1
+        params[:attachments][0][:fields].each_with_index do |field, i|
+          if field[:title] == 'コメント'
+            unless params[:attachments][0].key?(:text)
               params[:attachments][0][:title] = field[:title]
               params[:attachments][0][:text] = field[:value]
-              field_id = i
+            else
+              new_attachment= { title: field[:title], text: field[:value] }
+              params[:attachments].push new_attachment
             end
+            field_id = i
           end
-          if field_id >= 0
-            params[:attachments][0][:fields].delete_at(field_id)
-          end
+        end
+        if field_id >= 0
+          params[:attachments][0][:fields].delete_at(field_id)
         end
       end
       icon = textfield_for_project options[:project], :messenger_icon
