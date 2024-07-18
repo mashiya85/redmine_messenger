@@ -38,7 +38,7 @@ class Messenger
         if params[:attachments][0].key?(:fields)
           field_id = -1
           params[:attachments][0][:fields].each_with_index do |field, i|
-            if field[:title] == 'コメント'
+            if field[:title] == (I18n.t "field_comments")
               unless params[:attachments][0].key?(:text)
                 params[:attachments][0][:title] = field[:title]
                 params[:attachments][0][:text] = field[:value]
