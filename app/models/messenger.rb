@@ -210,6 +210,8 @@ class Messenger
                   I18n.t "field_#{key}_issue"
                 when 'copied_from'
                   I18n.t "label_#{key}"
+                when 'child'
+                  I18n.t "label_subtask"
                 else
                   I18n.t "field_#{key}"
                 end
@@ -247,7 +249,7 @@ class Messenger
                   detail.prop_key.to_s
                 end
 
-      when 'parent', 'copied_from'
+      when 'parent', 'copied_from', 'child'
         issue = Issue.find_by id: detail.value
         value = if issue.present?
                   escape = false
