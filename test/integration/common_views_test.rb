@@ -25,15 +25,17 @@ class CommonViewsTest < Redmine::IntegrationTest
   test 'View user' do
     log_user 'admin', 'admin'
     get '/users/2'
+
     assert_response :success
   end
 
   test 'View issue' do
     log_user 'admin', 'admin'
     EnabledModule.create project_id: 1, name: 'issue_tracking'
-    issue = Issue.where(id: 1).first
+    issue = Issue.find 1
     issue.save
     get '/issues/1'
+
     assert_response :success
   end
 end

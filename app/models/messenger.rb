@@ -97,11 +97,11 @@ class Messenger
     end
 
     def project_url_markdown(project)
-      "[#{project.name}](#{object_url project})"
+      "<#{object_url project}|#{project.name}>"
     end
 
     def url_markdown(obj, name)
-      "[#{name}](#{object_url obj})"
+      "<#{object_url obj}|#{name}>"
     end
 
     def textfield_for_project(proj, config)
@@ -276,8 +276,8 @@ class Messenger
     end
 
     def mentions(project, text)
-      names = []
-      textfield_for_project(project, :default_mentions).split(',').each { |m| names.push m.strip }
+      names = textfield_for_project(project, :default_mentions).split(',')
+                                                               .map { |m| names.push m.strip }
       names += extract_usernames text unless text.nil?
       names.present? ? " To: #{names.uniq.join ', '}" : nil
     end
